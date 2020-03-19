@@ -5,6 +5,10 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+/**
+ * Room reservation controller
+ */
+
 @RestController
 @RequestMapping(ReservationResource.ROOM_V_1_RESERVATION)
 @CrossOrigin
