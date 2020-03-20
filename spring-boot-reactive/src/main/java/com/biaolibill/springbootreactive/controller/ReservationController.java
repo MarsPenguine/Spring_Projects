@@ -43,15 +43,15 @@ public class ReservationController {
 
     @PutMapping(path = "{roomId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Mono<String> updatePrice(@PathVariable String roomId,
+    public Mono<Reservation> updatePrice(@PathVariable String roomId,
                                     @RequestBody Mono<Reservation> reservation) {
 
-        return Mono.just("{}");
+        return reservationServiceImpl.updateReservation(roomId, reservation);
     }
 
     @DeleteMapping(path = "{roomId}")
     public Mono<Boolean> deleteReservation(@PathVariable String roomId) {
 
-        return Mono.just(true);
+        return reservationServiceImpl.deleteReservation(roomId);
     }
 }
