@@ -28,7 +28,7 @@ class ReservationControllerTest {
     private WebTestClient webTestClient;
     private Reservation reservation;
 
-    @Before
+    @BeforeEach
     void setUp() {
         webTestClient = WebTestClient
                 .bindToApplicationContext(this.context)
@@ -42,15 +42,6 @@ class ReservationControllerTest {
     }
 
     @Test
-    void getReservationById() {
-        webTestClient.get()
-                .uri(ROOM_V_1_RESERVATION)
-                .exchange()
-                .expectStatus().isOk()
-                .expectBodyList(Reservation.class);
-    }
-
-    @Test
     void createReservation() {
         webTestClient.post()
                 .uri(ROOM_V_1_RESERVATION)
@@ -58,6 +49,9 @@ class ReservationControllerTest {
                 .exchange()
                 .expectStatus().isOk()
                 .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
-                .expectBody(Reservation.class);
+                .expectBody()
+                .jsonPath("$.roomNumber").isEqualTo(reservation.getRoomNumber())
+                .jsonPath("$.checkIn").isEqualTo(reservation.getCheckIn())
+                .jsonPath("$.price").isEqualTo(reservation.getPrice());
     }
 }
