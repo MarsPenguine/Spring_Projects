@@ -1,6 +1,8 @@
 package com.biaolibill.springbootreactive.controller;
 
 import com.biaolibill.springbootreactive.model.Reservation;
+import com.biaolibill.springbootreactive.service.ReservationServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
@@ -10,25 +12,32 @@ import reactor.core.publisher.Mono;
  */
 
 @RestController
-@RequestMapping(ReservationResource.ROOM_V_1_RESERVATION)
+@RequestMapping(ReservationController.ROOM_V_1_RESERVATION)
 @CrossOrigin
-public class ReservationResource {
+public class ReservationController {
 
     public static final String ROOM_V_1_RESERVATION = "/room/v1/reservation/";
 
+    private final ReservationServiceImpl reservationServiceImpl;
+
+    @Autowired
+    public ReservationController(ReservationServiceImpl reservationServiceImpl) {
+        this.reservationServiceImpl = reservationServiceImpl;
+    }
+
     @GetMapping(path = "{roomId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Mono<String> getReservationById(@PathVariable String roomId) {
+    public Mono<Reservation> getReservationById(@PathVariable String roomId) {
 
         //reservationService.getReservation(roomId);
 
-        return Mono.just("{}");
+        return reservationServiceImpl.getReservation(roomId);
     }
 
     @PostMapping(path = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Mono<String> createReservation(@RequestBody Mono<Reservation> reservation) {
+    public Mono<Reservation> createReservation(@RequestBody Mono<Reservation> reservation) {
 
-        return Mono.just("{}");
+        return reservationServiceImpl.createReservation(reservation);
     }
 
 

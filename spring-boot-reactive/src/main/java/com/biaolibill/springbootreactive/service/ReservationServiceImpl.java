@@ -3,6 +3,9 @@ package com.biaolibill.springbootreactive.service;
 import com.biaolibill.springbootreactive.model.Reservation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.ReactiveMongoOperations;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -32,11 +35,17 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public Mono<Reservation> updateReservation(String id, Mono<Reservation> reservationMono) {
-        return null;
+
+        return reservationMono.flatMap(reservation -> reactiveMongoOperations.findAndModify(
+                Query.query(Criteria.where("id").is(id)),
+                Update.update("price",reservation.getPrice()), Reservation.class)
+        );
     }
 
     @Override
     public Mono<Boolean> deleteReservation(String id) {
-        return null;
+        return reactiveMongoOperations.remove(
+                Query.query(Criteria.where("id").is(id)), Reservation.class)
+                .flatMap(deleteResult -> Mono.just(deleteResult.wasAcknowledged()));
     }
 }
