@@ -2,6 +2,8 @@ package com.biaolibill.springbootreactive.controller;
 
 import com.biaolibill.springbootreactive.model.Reservation;
 import com.biaolibill.springbootreactive.service.ReservationServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +19,7 @@ import reactor.core.publisher.Mono;
 public class ReservationController {
 
     public static final String ROOM_V_1_RESERVATION = "/room/v1/reservation/";
-
+    private static final Logger logger = LoggerFactory.getLogger(ReservationController.class);
     private final ReservationServiceImpl reservationServiceImpl;
 
     @Autowired
